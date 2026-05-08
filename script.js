@@ -27,6 +27,9 @@
   }, { passive: true });
 
   // ── Build galleries ────────────────────────────────────
+  // Flat list of all gallery images in display order, for lightbox navigation
+  const gallerySequence = [];
+
   function buildGallery(containerId, city) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -36,6 +39,8 @@
       return;
     }
     imgs.forEach(img => {
+      const index = gallerySequence.length;
+      gallerySequence.push(img);
       const card = document.createElement('div');
       card.className = 'gcard';
       const el = document.createElement('img');
@@ -47,7 +52,7 @@
       cap.textContent = img.attribution || `Photo by ${img.artist || 'Unsplash'}`;
       card.appendChild(el);
       card.appendChild(cap);
-      card.addEventListener('click', () => openLightbox(img));
+      card.addEventListener('click', () => openLightbox(index));
       container.appendChild(card);
     });
   }
@@ -56,30 +61,76 @@
   buildGallery('sloveniaGallery', 'Slovenia');
   buildGallery('londonGallery', 'London');
 
-  // ── Lightbox ───────────────────────────────────────────
+  // ── Lightbox with prev/next ────────────────────────────
+  let currentIndex = 0;
+
   const lb = document.createElement('div');
   lb.id = 'lightbox';
   lb.innerHTML = `
     <button id="lightboxClose" aria-label="Close">×</button>
-    <img id="lightboxImg" src="" alt="" />
+    <button id="lightboxPrev" aria-label="Previous">&#8592;</button>
+    <div id="lightboxImgWrap">
+      <img id="lightboxImg" src="" alt="" />
+    </div>
+    <button id="lightboxNext" aria-label="Next">&#8594;</button>
     <p id="lightboxCaption"></p>
+    <p id="lightboxCounter"></p>
   `;
   document.body.appendChild(lb);
 
-  function openLightbox(img) {
-    document.getElementById('lightboxImg').src = img.imagePath;
-    document.getElementById('lightboxImg').alt = img.title || '';
+  function showImage(index) {
+    const img = gallerySequence[index];
+    const el = document.getElementById('lightboxImg');
+    el.classList.remove('lb-slide-in-left', 'lb-slide-in-right');
+    void el.offsetWidth; // reflow to restart animation
+    el.src = img.imagePath;
+    el.alt = img.title || '';
     document.getElementById('lightboxCaption').textContent = img.attribution || '';
+    document.getElementById('lightboxCounter').textContent = `${index + 1} / ${gallerySequence.length}`;
+    document.getElementById('lightboxPrev').style.opacity = index === 0 ? '0.25' : '1';
+    document.getElementById('lightboxNext').style.opacity = index === gallerySequence.length - 1 ? '0.25' : '1';
+  }
+
+  function openLightbox(index) {
+    currentIndex = index;
+    showImage(currentIndex);
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+
+  function navigate(dir) {
+    const next = currentIndex + dir;
+    if (next < 0 || next >= gallerySequence.length) return;
+    const el = document.getElementById('lightboxImg');
+    el.classList.add(dir > 0 ? 'lb-slide-in-right' : 'lb-slide-in-left');
+    currentIndex = next;
+    showImage(currentIndex);
+  }
+
   function closeLightbox() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
   }
+
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
+  document.getElementById('lightboxNext').addEventListener('click', e => { e.stopPropagation(); navigate(1); });
   lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
 
   // ── Flight Timeline ────────────────────────────────────
   let legs = [];
