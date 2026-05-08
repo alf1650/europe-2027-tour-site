@@ -1,0 +1,156 @@
+{
+  "photos": [
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Unsplash Brussels",
+      "url": "https://unsplash.com/s/photos/brussels",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Pexels Brussels",
+      "url": "https://www.pexels.com/search/brussels/",
+      "licenseHint": "Pexels License"
+    },
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Pixabay Brussels",
+      "url": "https://pixabay.com/images/search/brussels/",
+      "licenseHint": "Pixabay License"
+    },
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Wikimedia Brussels",
+      "url": "https://commons.wikimedia.org/wiki/Category:Brussels",
+      "licenseHint": "Check file-specific CC license"
+    },
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Unsplash Grand Place",
+      "url": "https://unsplash.com/s/photos/grand-place-brussels",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "Brussels",
+      "kind": "search",
+      "title": "Pexels Atomium",
+      "url": "https://www.pexels.com/search/atomium/",
+      "licenseHint": "Pexels License"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Unsplash Slovenia",
+      "url": "https://unsplash.com/s/photos/slovenia",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Unsplash Lake Bled",
+      "url": "https://unsplash.com/s/photos/lake-bled",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Pexels Slovenia",
+      "url": "https://www.pexels.com/search/slovenia/",
+      "licenseHint": "Pexels License"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Wikimedia Slovenia",
+      "url": "https://commons.wikimedia.org/wiki/Category:Slovenia",
+      "licenseHint": "Check file-specific CC license"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Pexels Lake Bled",
+      "url": "https://www.pexels.com/search/lake%20bled/",
+      "licenseHint": "Pexels License"
+    },
+    {
+      "city": "Slovenia",
+      "kind": "search",
+      "title": "Unsplash Lake Bohinj",
+      "url": "https://unsplash.com/s/photos/lake-bohinj",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Unsplash London",
+      "url": "https://unsplash.com/s/photos/london",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Pexels London",
+      "url": "https://www.pexels.com/search/london/",
+      "licenseHint": "Pexels License"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Pixabay London",
+      "url": "https://pixabay.com/images/search/london/",
+      "licenseHint": "Pixabay License"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Wikimedia London",
+      "url": "https://commons.wikimedia.org/wiki/Category:London",
+      "licenseHint": "Check file-specific CC license"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Unsplash Tower Bridge",
+      "url": "https://unsplash.com/s/photos/tower-bridge",
+      "licenseHint": "Unsplash License"
+    },
+    {
+      "city": "London",
+      "kind": "search",
+      "title": "Pexels Westminster",
+      "url": "https://www.pexels.com/search/westminster/",
+      "licenseHint": "Pexels License"
+    }
+  ],
+  "blogsAndOfficial": [
+    {
+      "city": "Brussels",
+      "title": "visit.brussels",
+      "url": "https://www.visit.brussels/en/visitors",
+      "type": "official"
+    },
+    {
+      "city": "Slovenia",
+      "title": "Visit Ljubljana",
+      "url": "https://www.visitljubljana.com/en/visitors/",
+      "type": "official"
+    },
+    {
+      "city": "Slovenia",
+      "title": "Slovenia Official Tourism",
+      "url": "https://www.slovenia.info/en",
+      "type": "official"
+    },
+    {
+      "city": "London",
+      "title": "Visit London",
+      "url": "https://www.visitlondon.com",
+      "type": "official"
+    }
+  ]
+}

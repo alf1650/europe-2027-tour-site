@@ -1,0 +1,77 @@
+{
+  "tripTitle": "Europe 2027 Gathering Tour",
+  "dateRange": "2027-06-04 to 2027-06-19",
+  "legs": [
+    {
+      "date": "2027-06-04",
+      "day": "Friday",
+      "type": "flight",
+      "title": "Singapore to Brussels",
+      "detail": "SQ, departs 11:55 PM",
+      "from": "SIN",
+      "to": "BRU"
+    },
+    {
+      "date": "2027-06-05",
+      "day": "Saturday",
+      "type": "arrival",
+      "title": "Arrive Brussels",
+      "detail": "Arrival 7:25 AM",
+      "from": "SIN",
+      "to": "BRU"
+    },
+    {
+      "date": "2027-06-08 or 2027-06-09",
+      "day": "Tuesday or Wednesday",
+      "type": "flight",
+      "title": "Brussels to Ljubljana",
+      "detail": "Brussels Airlines, departs 4:10 PM, flight time ~1h35m",
+      "from": "BRU",
+      "to": "LJU"
+    },
+    {
+      "date": "2027-06-17",
+      "day": "Thursday",
+      "type": "flight",
+      "title": "Slovenia to London Gatwick",
+      "detail": "easyJet, departs 11:00 AM, arrives 12:20 PM",
+      "from": "LJU",
+      "to": "LGW"
+    },
+    {
+      "date": "2027-06-18",
+      "day": "Friday",
+      "type": "flight",
+      "title": "London Heathrow to Singapore",
+      "detail": "SQ321, departs 10:05 PM",
+      "from": "LHR",
+      "to": "SIN"
+    },
+    {
+      "date": "2027-06-19",
+      "day": "Saturday",
+      "type": "arrival",
+      "title": "Arrive Singapore",
+      "detail": "Arrival 6:30 PM",
+      "from": "LHR",
+      "to": "SIN"
+    }
+  ],
+  "chapters": [
+    {
+      "city": "Brussels",
+      "window": "5-8/9 Jun",
+      "focus": ["Old Town", "Architecture", "Chocolate and Waffles", "Group-friendly walks"]
+    },
+    {
+      "city": "Slovenia",
+      "window": "8/9-17 Jun",
+      "focus": ["Ljubljana old town", "Lake Bled", "Lake Bohinj", "Nature day trips"]
+    },
+    {
+      "city": "London",
+      "window": "17-18 Jun",
+      "focus": ["Iconic riverside", "Markets", "Parks", "Short city finale"]
+    }
+  ]
+}
