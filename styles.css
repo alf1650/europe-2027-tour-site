@@ -406,92 +406,153 @@ a { color: inherit; text-decoration: none; }
 .site-footer a { color: rgba(240,236,228,0.5); }
 .site-footer a:hover { color: rgba(240,236,228,0.8); }
 
-/* ─── LIGHTBOX ELEMENT ──────────────────────────────────── */
+/* ─── LIGHTBOX (Flipboard 3D) ───────────────────────────── */
 #lightbox {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 500;
-  background: rgba(5,4,3,0.94);
+  background: rgba(4,3,2,0.96);
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 #lightbox.open { display: flex; }
 
-#lightboxImgWrap {
+#lbStage {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  gap: 0;
+  width: 100%;
 }
-#lightboxImg {
-  max-width: 82vw;
-  max-height: 82vh;
-  object-fit: contain;
-  transition: opacity 0.18s ease;
-}
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-#lightboxImg.lb-slide-in-right { animation: slideInRight 0.22s ease forwards; }
-#lightboxImg.lb-slide-in-left  { animation: slideInLeft  0.22s ease forwards; }
 
+#lbScene {
+  position: relative;
+  width: min(84vw, 1100px);
+  height: min(72vh, 740px);
+  perspective: 1400px;
+  flex-shrink: 0;
+}
+
+/* ── Card base ── */
+.lb-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+.lb-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #0a0907;
+}
+
+/* ── Stable states ── */
+.lb-card.lb-front {
+  transform: rotateY(0deg);
+  opacity: 1;
+  z-index: 2;
+}
+.lb-card.lb-back-right {
+  transform: rotateY(90deg);
+  opacity: 0;
+  z-index: 1;
+}
+.lb-card.lb-hidden-right {
+  transform: rotateY(90deg);
+  opacity: 0;
+  z-index: 1;
+}
+.lb-card.lb-hidden-left {
+  transform: rotateY(-90deg);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* ── Flip OUT animations ── */
+@keyframes flipOutLeft {
+  from { transform: rotateY(0deg);  opacity: 1; }
+  to   { transform: rotateY(-90deg); opacity: 0; }
+}
+@keyframes flipOutRight {
+  from { transform: rotateY(0deg); opacity: 1; }
+  to   { transform: rotateY(90deg); opacity: 0; }
+}
+
+/* ── Flip IN animations ── */
+@keyframes flipInRight {
+  from { transform: rotateY(90deg);  opacity: 0; }
+  to   { transform: rotateY(0deg);  opacity: 1; }
+}
+@keyframes flipInLeft {
+  from { transform: rotateY(-90deg); opacity: 0; }
+  to   { transform: rotateY(0deg);  opacity: 1; }
+}
+
+.lb-card.lb-flip-out-left  { animation: flipOutLeft  0.32s cubic-bezier(.4,0,.6,1) forwards; z-index: 2; }
+.lb-card.lb-flip-out-right { animation: flipOutRight 0.32s cubic-bezier(.4,0,.6,1) forwards; z-index: 2; }
+.lb-card.lb-flip-in-right  { animation: flipInRight  0.32s cubic-bezier(.4,0,.6,1) forwards; z-index: 3; }
+.lb-card.lb-flip-in-left   { animation: flipInLeft   0.32s cubic-bezier(.4,0,.6,1) forwards; z-index: 3; }
+
+/* ── Nav buttons ── */
 #lightboxClose {
   position: absolute;
   top: 1.5rem; right: 2rem;
   font-size: 2rem;
-  color: rgba(240,236,228,0.6);
+  color: rgba(240,236,228,0.55);
   cursor: pointer;
   background: none;
   border: none;
   line-height: 1;
   z-index: 10;
+  transition: color 0.2s;
 }
 #lightboxClose:hover { color: #fff; }
 
 #lightboxPrev,
 #lightboxNext {
   background: none;
-  border: 1px solid rgba(240,236,228,0.25);
-  color: rgba(240,236,228,0.75);
-  font-size: 1.6rem;
+  border: 1px solid rgba(240,236,228,0.2);
+  color: rgba(240,236,228,0.7);
+  font-size: 1.5rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.2s, color 0.2s, opacity 0.2s;
+  margin: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 1.2rem;
+  transition: background 0.2s, color 0.2s, opacity 0.3s;
 }
 #lightboxPrev:hover,
 #lightboxNext:hover {
-  background: rgba(240,236,228,0.12);
+  background: rgba(240,236,228,0.1);
   color: #fff;
 }
 
-#lightboxCaption {
-  margin-top: 1rem;
-  font-size: 0.75rem;
-  color: rgba(240,236,228,0.4);
-  letter-spacing: 0.06em;
+/* ── Meta ── */
+#lbMeta {
+  margin-top: 1.2rem;
   text-align: center;
-  max-width: 600px;
+}
+#lightboxCaption {
+  font-size: 0.74rem;
+  color: rgba(240,236,228,0.38);
+  letter-spacing: 0.06em;
 }
 #lightboxCounter {
-  margin-top: 0.35rem;
-  font-size: 0.7rem;
-  color: rgba(240,236,228,0.25);
-  letter-spacing: 0.14em;
-  text-align: center;
+  margin-top: 0.3rem;
+  font-size: 0.68rem;
+  color: rgba(240,236,228,0.2);
+  letter-spacing: 0.16em;
 }
 
 /* ─── RESPONSIVE ────────────────────────────────────────── */

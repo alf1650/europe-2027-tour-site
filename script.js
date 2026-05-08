@@ -61,55 +61,106 @@
   buildGallery('sloveniaGallery', 'Slovenia');
   buildGallery('londonGallery', 'London');
 
-  // ── Lightbox with prev/next ────────────────────────────
+  // ── Lightbox with Flipboard-style page turn ────────────
   let currentIndex = 0;
+  let isAnimating = false;
 
   const lb = document.createElement('div');
   lb.id = 'lightbox';
   lb.innerHTML = `
     <button id="lightboxClose" aria-label="Close">×</button>
-    <button id="lightboxPrev" aria-label="Previous">&#8592;</button>
-    <div id="lightboxImgWrap">
-      <img id="lightboxImg" src="" alt="" />
+    <div id="lbStage">
+      <button id="lightboxPrev" aria-label="Previous">&#8592;</button>
+      <div id="lbScene">
+        <div id="lbCardA" class="lb-card"><img class="lb-img" src="" alt="" /></div>
+        <div id="lbCardB" class="lb-card"><img class="lb-img" src="" alt="" /></div>
+      </div>
+      <button id="lightboxNext" aria-label="Next">&#8594;</button>
     </div>
-    <button id="lightboxNext" aria-label="Next">&#8594;</button>
-    <p id="lightboxCaption"></p>
-    <p id="lightboxCounter"></p>
+    <div id="lbMeta">
+      <p id="lightboxCaption"></p>
+      <p id="lightboxCounter"></p>
+    </div>
   `;
   document.body.appendChild(lb);
 
-  function showImage(index) {
+  // Which card is currently on top
+  let activeCard = 'A';
+
+  function getCard(id) { return document.getElementById('lbCard' + id); }
+  function otherCard(id) { return id === 'A' ? 'B' : 'A'; }
+
+  function setMeta(index) {
     const img = gallerySequence[index];
-    const el = document.getElementById('lightboxImg');
-    el.classList.remove('lb-slide-in-left', 'lb-slide-in-right');
-    void el.offsetWidth; // reflow to restart animation
-    el.src = img.imagePath;
-    el.alt = img.title || '';
     document.getElementById('lightboxCaption').textContent = img.attribution || '';
     document.getElementById('lightboxCounter').textContent = `${index + 1} / ${gallerySequence.length}`;
-    document.getElementById('lightboxPrev').style.opacity = index === 0 ? '0.25' : '1';
-    document.getElementById('lightboxNext').style.opacity = index === gallerySequence.length - 1 ? '0.25' : '1';
+    document.getElementById('lightboxPrev').style.opacity = index === 0 ? '0.2' : '1';
+    document.getElementById('lightboxNext').style.opacity = index === gallerySequence.length - 1 ? '0.2' : '1';
   }
 
   function openLightbox(index) {
     currentIndex = index;
-    showImage(currentIndex);
+    activeCard = 'A';
+    const cardA = getCard('A');
+    const cardB = getCard('B');
+    // Reset both cards
+    cardA.className = 'lb-card lb-front';
+    cardB.className = 'lb-card lb-back-right';
+    cardA.querySelector('img').src = gallerySequence[index].imagePath;
+    cardB.querySelector('img').src = '';
+    setMeta(index);
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
   function navigate(dir) {
+    if (isAnimating) return;
     const next = currentIndex + dir;
     if (next < 0 || next >= gallerySequence.length) return;
-    const el = document.getElementById('lightboxImg');
-    el.classList.add(dir > 0 ? 'lb-slide-in-right' : 'lb-slide-in-left');
+    isAnimating = true;
+
+    const incoming = otherCard(activeCard);
+    const outgoing = activeCard;
+    const cardIn  = getCard(incoming);
+    const cardOut = getCard(outgoing);
+
+    // Pre-load incoming image off-screen
+    cardIn.querySelector('img').src = gallerySequence[next].imagePath;
+
+    if (dir > 0) {
+      // Going NEXT: outgoing flips away left, incoming flips in from right
+      cardIn.className  = 'lb-card lb-hidden-right';
+      void cardIn.offsetWidth;
+      cardOut.className = 'lb-card lb-flip-out-left';
+      setTimeout(() => {
+        cardIn.className = 'lb-card lb-flip-in-right';
+      }, 80);
+    } else {
+      // Going PREV: outgoing flips away right, incoming flips in from left
+      cardIn.className  = 'lb-card lb-hidden-left';
+      void cardIn.offsetWidth;
+      cardOut.className = 'lb-card lb-flip-out-right';
+      setTimeout(() => {
+        cardIn.className = 'lb-card lb-flip-in-left';
+      }, 80);
+    }
+
     currentIndex = next;
-    showImage(currentIndex);
+    activeCard = incoming;
+    setMeta(currentIndex);
+
+    setTimeout(() => {
+      // Settle: make incoming the stable front
+      cardIn.className  = 'lb-card lb-front';
+      cardOut.className = 'lb-card lb-back-right';
+      isAnimating = false;
+    }, 420);
   }
 
   function closeLightbox() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
+    isAnimating = false;
   }
 
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
@@ -124,7 +175,7 @@
     if (e.key === 'ArrowRight') navigate(1);
   });
 
-  // Touch swipe support
+  // Touch swipe
   let touchStartX = 0;
   lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
   lb.addEventListener('touchend', e => {
