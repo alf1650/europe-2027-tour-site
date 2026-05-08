@@ -569,7 +569,7 @@ a { color: inherit; text-decoration: none; }
   .nav-links { gap: 1.2rem; }
 }
 @media (max-width: 540px) {
-  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
   .gallery-grid .gcard { grid-column: span 1 !important; grid-row: span 1 !important; }
   .nav-links { display: none; }
 }
