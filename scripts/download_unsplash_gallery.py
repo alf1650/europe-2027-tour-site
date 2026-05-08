@@ -19,12 +19,19 @@ SEARCHES = [
     ("Brussels", "Brussels Belgium", 8),
     ("Brussels", "Grand Place Brussels", 5),
     ("Brussels", "Brussels architecture", 4),
+    ("Brussels", "Brussels chocolate waffle", 4),
+    ("Brussels", "Belgium town square", 4),
     ("Slovenia", "Lake Bled Slovenia", 10),
     ("Slovenia", "Ljubljana Slovenia", 6),
     ("Slovenia", "Slovenia landscape mountains", 6),
+    ("Slovenia", "Triglav national park", 5),
+    ("Slovenia", "Slovenia green nature", 5),
     ("London", "London skyline", 8),
-    ("London", "Tower Bridge London", 6),
-    ("London", "London city street", 5),
+    ("London", "Tower Bridge London", 8),
+    ("London", "London city street", 6),
+    ("London", "Big Ben Westminster", 6),
+    ("London", "London Thames river", 6),
+    ("London", "London Covent Garden market", 4),
 ]
 
 
